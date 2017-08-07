@@ -1,0 +1,4 @@
+DB-User:
+wacker	Password:''
+neuson	Password:''
+admin	Password:'root'
