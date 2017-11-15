@@ -1,3 +1,4 @@
+Drop Table if Exists RunResults;
 Drop Table If Exists Tags;
 Drop Table If Exists Types;
 
@@ -10,17 +11,27 @@ CREATE TABLE Types(
 Insert into Types (TY_NAME) VALUES ('Room'),('Laptop'),('Dockingstation');
 
 CREATE TABLE Tags (
-     T_ID Long NOT NULL,
-	 T_TYPE INT,
+     T_ID INT NOT NULL AUTO_INCREMENT,
+	 T_TYPE INT, 
      T_NAME VARCHAR(30) NOT NULL,
-	 T_LASTFOUND Date,
-	 T_FOUND_IN_LAST_RUN Boolean NOT NULL,
-	 T_ROOMID BIGINT,
-     PRIMARY KEY (T_ID),
-	 CONSTRAINT FK_TAG_TYPE
-		FOREIGN KEY (T_TYPE) REFERENCES Types (TY_ID)	 
- );
- Alter table Tags Add Constraint FK_ROOM_ID FOREIGN KEY (T_ROOMID) References Tags (T_ID);
+     T_RFID VARCHAR(36) Unique NOT NULL,
+	 PRIMARY KEY (T_ID),
+	 CONSTRAINT FK_TAG_TYPE FOREIGN KEY (T_TYPE) REFERENCES Types (TY_ID));
 
-INSERT INTO Tags (T_ID,T_TYPE,T_NAME) VALUES
-    (1,2,'dog');
+INSERT INTO Tags (T_TYPE,T_RFID,T_NAME) VALUES
+    (2,'do','dog');
+
+Create Table RunResults(
+	R_ID BIGINT NOT NULL AUTO_INCREMENT,
+	R_LASTFOUND Date,
+	R_FOUND_IN_LAST_RUN Boolean NOT NULL,
+	R_ROOMID INT,
+	R_TAGID int,
+ 	Primary Key(R_ID),
+	Constraint FK_RUN_TAG_ID FOREIGN KEY (R_TAGID) REFERENCES Tags (T_ID));
+
+INSERT INTO RunResults (R_ROOMID) VALUES
+    (2);
+
+
+
